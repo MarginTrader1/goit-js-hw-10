@@ -4,7 +4,10 @@ new SlimSelect({
   select: '#selectElement'
 })
 
-fetch('https://api.thecatapi.com/v1/breeds')
+const KEY_API = 'live_sEDFMHRNSodHCaL7awGvLr0m2GM2ft2fhMh0p4uHuGLReqOu194EfLuWmNYD9tGw';
+const url = `https://api.thecatapi.com/v1/breeds/`;
+
+fetch(url)
       .then(response => response.json())
       .then(json => console.log(json))
 
