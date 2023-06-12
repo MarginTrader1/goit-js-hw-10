@@ -77,7 +77,7 @@ function renderCatInfo(breedData) {
     .map((item) => {
       return `
       <h2>${item.name}</h2>
-      <p>${item.description}/p>              
+      <p>${item.description}</p>              
       `;
   });
 
