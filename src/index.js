@@ -1,7 +1,9 @@
+import SlimSelect from 'slim-select';
+
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 import Notiflix from 'notiflix';
 
-import SlimSelect from 'slim-select'
+
 
 new SlimSelect({
   select: '#selectElement'
@@ -42,7 +44,7 @@ function renderBreedsList(breeds) {
     })
     .join("");
   breedList.innerHTML = markup;
-  breedList.id = "selectElement"
+  
 }
 
 // получаем выбранное значение породы 
