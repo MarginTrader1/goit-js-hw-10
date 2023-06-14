@@ -1,13 +1,8 @@
 
-// получаем породы и вызываем функцию создания разметки 
+// получаем породы 
 function fetchBreeds(url) {
   return fetch(url)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  })
+  .then(response => response.json())
 }   
 
 // получаем кота по введенной породе 
@@ -17,12 +12,7 @@ function fetchCatByBreed(breedId){
   const urlСatByBreed = `https://api.thecatapi.com/v1/images/search?api_key=${KEY_API}&limit=1&breed_ids=${breedId}`
 
   return fetch(urlСatByBreed)
-  .then(response => {
-    if (!response.ok) {
-      throw new Error(response.status);
-    }
-    return response.json();
-  })
+  .then(response => response.json())
   }
 
 export { fetchBreeds,fetchCatByBreed }; 

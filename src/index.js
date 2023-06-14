@@ -15,11 +15,19 @@ const url = `https://api.thecatapi.com/v1/breeds`;
 
 // вызов функции при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => { 
+  breedList.classList.add('visually-hidden')
   fetchBreeds(url)
-  .then(json => renderBreedsList(json))
-  .catch(error => {
-    // Error handling
-  });;
+  .then(json => {
+    // делаем проверку получения данных
+    if(json) {
+      breedList.classList.remove('visually-hidden')
+      loader.classList.add('visually-hidden')
+      renderBreedsList(json)
+      }
+      //если данных нет - выводим ошибку 
+      throw new Error();
+  })
+  .catch(onError);
 });
 
 // функция создания разметки при перезагрузке страницы 
@@ -64,13 +72,20 @@ function renderCatInfo(breedData) {
       <div>
         <h2>${item.name}</h2>
         <p>${item.description}</p>  
-        <p><span style="font-size:120%; font-weight:bold;">Temperament:</span> ${item.temperament}.</p>
+        <p><span style="font-size:120%; font-weight:bold">Temperament:</span> ${item.temperament}.</p>
       </div>              
       `;
   });
 
   // вставляем разметку в код
   catInfo.innerHTML = markupUrl + markupName;
+}
+
+// функция вывода ошибки
+function onError(err){
+  console.dir(err);
+  error.classList.remove('visually-hidden');
+  breedList.classList.add('visually-hidden')
 }
 
 breedList.addEventListener('change', getSelectBreed)
