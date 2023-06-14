@@ -42,6 +42,7 @@ function renderBreedsList(breeds) {
     })
     .join("");
   breedList.innerHTML = markup;
+  breedList.id = "selectElement"
 }
 
 // получаем выбранное значение породы 
@@ -66,7 +67,7 @@ function getSelectBreed(e){
   .catch(error => onError(error));
 }
 
-// создания разметки для информации о породе 
+// функция создания разметки для информации о породе 
 function renderCatInfo(breedData) {
   
   // добавляем url
@@ -102,6 +103,7 @@ function onError(err){
 }
 
 breedList.addEventListener('change', getSelectBreed)
+
 
 
 
