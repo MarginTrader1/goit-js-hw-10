@@ -1,5 +1,7 @@
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
-import SlimSelect from 'slim-select';
+import Notiflix from 'notiflix';
+
+import SlimSelect from 'slim-select'
 
 new SlimSelect({
   select: '#selectElement'
@@ -12,22 +14,22 @@ const error = document.querySelector('.error');
 
 const url = `https://api.thecatapi.com/v1/breeds`;
 
-
 // вызов функции при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => { 
   breedList.classList.add('visually-hidden')
   fetchBreeds(url)
   .then(json => {
     // делаем проверку получения данных
-    if(json) {
+    // если нет данных - тогда ошибка 
+    if(!json) {
+      throw new Error();
+      }
+      //если данные есть - рендерим разметку
       breedList.classList.remove('visually-hidden')
       loader.classList.add('visually-hidden')
       renderBreedsList(json)
-      }
-      //если данных нет - выводим ошибку 
-      throw new Error();
   })
-  .catch(onError);
+  .catch(error => onError(error));
 });
 
 // функция создания разметки при перезагрузке страницы 
@@ -46,11 +48,22 @@ function renderBreedsList(breeds) {
 function getSelectBreed(e){
   const breedId = e.target.value;
   
+  loader.classList.remove('visually-hidden')
+  catInfo.classList.add('visually-hidden')
+
   fetchCatByBreed(breedId)
-  .then(json => renderCatInfo(json)) 
-  .catch(error => {
-    // Error handling
-  });;
+  .then(json => {
+    if (json.length === 0) {
+      // делаем проверку данных
+      loader.classList.add('visually-hidden')
+      throw new Error();
+    }
+    //если данные есть - рендерим разметку
+    loader.classList.add('visually-hidden')
+    renderCatInfo(json)
+    catInfo.classList.remove('visually-hidden')
+  }) 
+  .catch(error => onError(error));
 }
 
 // создания разметки для информации о породе 
@@ -64,7 +77,7 @@ function renderCatInfo(breedData) {
       `;
   });
 
-  // вытягиваем и добавляем описание и имя
+  // вытягиваем и добавляем описание кота
   const markupName = breedData
     .flatMap(elem => elem.breeds)
     .map((item) => {
@@ -83,9 +96,9 @@ function renderCatInfo(breedData) {
 
 // функция вывода ошибки
 function onError(err){
-  console.dir(err);
   error.classList.remove('visually-hidden');
-  breedList.classList.add('visually-hidden')
+  breedList.classList.add('visually-hidden');
+  Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!')
 }
 
 breedList.addEventListener('change', getSelectBreed)
