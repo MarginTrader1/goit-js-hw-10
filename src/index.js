@@ -3,8 +3,6 @@ import SlimSelect from 'slim-select';
 import { fetchBreeds, fetchCatByBreed } from './cat-api.js';
 import Notiflix from 'notiflix';
 
-
-
 new SlimSelect({
   select: '#selectElement'
 })
@@ -18,14 +16,15 @@ const url = `https://api.thecatapi.com/v1/breeds`;
 
 // вызов функции при загрузке страницы
 document.addEventListener("DOMContentLoaded", () => { 
-  breedList.classList.add('visually-hidden')
+  
   fetchBreeds(url)
   .then(json => {
     // делаем проверку получения данных
     // если нет данных - тогда ошибка 
-    if(!json) {
+    if('message' in json) {
+      loader.classList.add('visually-hidden')
       throw new Error();
-      }
+      } 
       //если данные есть - рендерим разметку
       breedList.classList.remove('visually-hidden')
       loader.classList.add('visually-hidden')
@@ -100,7 +99,6 @@ function renderCatInfo(breedData) {
 // функция вывода ошибки
 function onError(err){
   error.classList.remove('visually-hidden');
-  breedList.classList.add('visually-hidden');
   Notiflix.Notify.failure('Oops! Something went wrong! Try reloading the page!')
 }
 
