@@ -70,7 +70,8 @@ function getSelectBreed(e){
 
 // функция создания разметки для информации о породе 
 function renderCatInfo(breedData) {
-  
+
+
   // добавляем url
   const markupUrl = breedData
     .map((item) => {
