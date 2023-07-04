@@ -36,9 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
 // функция создания разметки при перезагрузке страницы 
 function renderBreedsList(breeds) {
   const markup = breeds
-    .map((breed) => {
+    .map(({ id, name }) => {
       return `
-      <option value="${breed.id}">${breed.name}</option>
+      <option value="${id}">${name}</option>
       `;
     })
     .join("");
@@ -71,24 +71,23 @@ function getSelectBreed(e){
 // функция создания разметки для информации о породе 
 function renderCatInfo(breedData) {
 
-
   // добавляем url
   const markupUrl = breedData
-    .map((item) => {
+    .map(({ url }) => {
       return `
-      <img src="${item.url}" width="500">              
+      <img src="${url}" width="500">              
       `;
   });
 
   // вытягиваем и добавляем описание кота
   const markupName = breedData
     .flatMap(elem => elem.breeds)
-    .map((item) => {
+    .map(({ name, description, temperament }) => {
       return `
       <div>
-        <h2>${item.name}</h2>
-        <p>${item.description}</p>  
-        <p><span style="font-size:120%; font-weight:bold">Temperament:</span> ${item.temperament}.</p>
+        <h2>${name}</h2>
+        <p>${description}</p>  
+        <p><span style="font-size:120%; font-weight:bold">Temperament:</span> ${temperament}.</p>
       </div>              
       `;
   });
@@ -104,6 +103,17 @@ function onError(err){
 }
 
 breedList.addEventListener('change', getSelectBreed)
+
+
+function iterateNestedObjects(array) {
+  array.forEach((item) => {
+    if (typeof item === 'object') {
+      iterateNestedObjects(item); // рекурсивный вызов для вложенного объекта
+    } else {
+      console.log(item); // выполнение операций для каждого элемента
+    }
+  });
+}
 
 
 
