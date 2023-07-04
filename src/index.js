@@ -105,16 +105,6 @@ function onError(err){
 breedList.addEventListener('change', getSelectBreed)
 
 
-function iterateNestedObjects(array) {
-  array.forEach((item) => {
-    if (typeof item === 'object') {
-      iterateNestedObjects(item); // рекурсивный вызов для вложенного объекта
-    } else {
-      console.log(item); // выполнение операций для каждого элемента
-    }
-  });
-}
-
 
 
 
