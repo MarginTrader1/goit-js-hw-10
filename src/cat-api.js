@@ -15,4 +15,4 @@ function fetchCatByBreed(breedId){
   .then(response => response.json())
   }
 
-export { fetchBreeds,fetchCatByBreed }; 
+export { fetchBreeds, fetchCatByBreed }; 
